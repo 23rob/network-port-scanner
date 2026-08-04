@@ -26,7 +26,14 @@ class TestResolveTarget:
     async def test_ipv4_literal_passthrough(self):
         assert await scanner.resolve_target("127.0.0.1") == "127.0.0.1"
 
-   async def test_hostname_resolves_to_a_loopback_address(self):
+    async def test_hostname_resolves_to_a_loopback_address(self):
+        # "localhost" can legitimately resolve to either 127.0.0.1
+        # (IPv4) or ::1 (IPv6) depending on the machine's resolver
+        # configuration -- confirmed directly: this returned 127.0.0.1
+        # in one environment and ::1 on GitHub Actions' runner, both
+        # correct. Assert on the loopback *property* via ipaddress
+        # rather than hardcoding one specific family, or the test is
+        # really just asserting an assumption about the test machine.
         resolved = await scanner.resolve_target("localhost")
         assert ipaddress.ip_address(resolved).is_loopback
 
