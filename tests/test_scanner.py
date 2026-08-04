@@ -14,6 +14,7 @@ deterministic, fast, and portable coverage of that logic instead.
 from __future__ import annotations
 
 import asyncio
+import ipaddress
 from unittest.mock import patch
 
 import pytest
@@ -25,8 +26,9 @@ class TestResolveTarget:
     async def test_ipv4_literal_passthrough(self):
         assert await scanner.resolve_target("127.0.0.1") == "127.0.0.1"
 
-    async def test_hostname_resolves_to_loopback(self):
-        assert await scanner.resolve_target("localhost") == "127.0.0.1"
+   async def test_hostname_resolves_to_a_loopback_address(self):
+        resolved = await scanner.resolve_target("localhost")
+        assert ipaddress.ip_address(resolved).is_loopback
 
     async def test_unresolvable_hostname_raises_value_error(self):
         with pytest.raises(ValueError, match="Could not resolve host"):
