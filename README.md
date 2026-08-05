@@ -126,7 +126,14 @@ Tested against a real target with actual network latency (`scanme.nmap.org`, 1,0
 
 Retrying a filtered result once (in case it was transient jitter rather than a real firewall rule) is more accurate but not free. Measured on the same 1,024-port `scanme.nmap.org` scan: **22.07s with `--no-retry` vs. 44.82s with retry enabled** — almost exactly 2x, since nearly every port on that host is genuinely filtered and pays the retry cost. Retry stays on by default (favoring correctness), but `--no-retry` is there deliberately for large scans where speed matters more than catching transient drops.
 
----
+--- 
+### A Windows-specific classification discrepancy, found via cross-platform testing
+
+[#a-windows-specific-classification-discrepancy-found-via-cross-platform-testing](#a-windows-specific-classification-discrepancy-found-via-cross-platform-testing)
+
+Testing the full suite on Windows 11 (vs. the Linux/macOS environment used for the benchmarks above) surfaced a genuine, reproducible platform difference: **3 of 93 tests fail on Windows**, all for the same root cause. Each test assumes an unbound loopback TCP port will be classified `closed` — true on Linux/macOS, where the kernel sends an immediate `RST` for a connection to a port nothing is listening on. On Windows, the same unbound port instead returned `filtered` (hit the full connection timeout rather than getting an instant refusal), most likely due to how Windows Firewall handles loopback traffic.
+
+This isn't a bug in the classification logic — `scanner.py` correctly labels "no response within timeout" as `filtered`, exactly as designed. It's the *test's* cross-platform assumption that doesn't hold: "an unused port always refuses instantly" is a Linux/macOS-specific guarantee, not a universal one. Confirmed consistent across repeated runs (not flaky), so this is a legitimate platform difference worth documenting rather than an intermittent test issue.
 
 ## 🧪 Testing
 
