@@ -10,6 +10,8 @@ An async, multi-host TCP port scanner built for **network reconnaissance**, **se
 > Only scan hosts and networks you **own** or have **explicit written authorization** to test. Unauthorized scanning may violate the Computer Fraud and Abuse Act (US) or equivalent laws elsewhere. This tool is for educational and authorized security-testing purposes only.
 
 ---
+**Example scan output:**
+<img width="1261" height="287" alt="Example scan output showing open ports, service names, and filtered port summary" src="https://github.com/user-attachments/assets/cadaf694-f11f-4f6c-8cc0-b8510b82ef8b" />
 
 ## 🚀 Features
 
