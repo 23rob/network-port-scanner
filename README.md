@@ -32,7 +32,11 @@ An async, multi-host TCP port scanner built for **network reconnaissance**, **se
 ---
 
 ## 📥 Installation
+### Option 1: Standalone executable (Windows, no Python required)
 
+Download the latest `portscan.exe` from the [Releases page](https://github.com/23rob/network-port-scanner/releases) and run it directly — no installation needed.
+
+### Option 2: From source (all platforms, requires Python 3.10+)
 ```bash
 git clone https://github.com/23rob/network-port-scanner.git
 cd network-port-scanner
