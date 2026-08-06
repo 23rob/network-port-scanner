@@ -31,7 +31,13 @@ jobs:
         run: ruff check src/ tests/
 
       - name: Run test suite with coverage
-        run: pytest tests/ --cov=port_scanner --cov-report=term-missing
+        run: pytest tests/ --cov=port_scanner --cov-report=term-missing --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
   install-check:
     name: Verify console script installs correctly
