@@ -3,6 +3,7 @@
 [![CI](https://github.com/23rob/network-port-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/23rob/network-port-scanner/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![codecov](https://codecov.io/github/23rob/network-port-scanner/graph/badge.svg?token=JV6FUUKLTX)](https://codecov.io/github/23rob/network-port-scanner)
 
 An async, multi-host TCP port scanner built for **network reconnaissance**, **security auditing**, and **CLI/automation usage** — with a proper pip-installable package layout, a 93-test suite at 96% coverage, and CI that actually runs it.
 
