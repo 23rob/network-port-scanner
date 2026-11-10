@@ -53,8 +53,18 @@ async def local_server():
 
 @pytest.fixture
 def unused_port():
-    """A local port nothing is listening on, for testing 'closed' state."""
+    """A local port nothing is listening on, for testing 'closed' state.
+
+    Skipped on Windows: there, a connection to an unbound loopback port is not
+    refused instantly. It times out and is correctly classified as 'filtered',
+    so tests that expect 'closed' only hold on Linux and macOS (see the
+    Engineering Notes in the README).
+    """
     import socket
+    import sys
+
+    if sys.platform == "win32":
+        pytest.skip("unbound loopback ports time out (filtered) on Windows, not refused")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(("127.0.0.1", 0))
     port = s.getsockname()[1]
