@@ -142,6 +142,8 @@ Testing the full suite on Windows 11 (vs. the Linux/macOS environment used for t
 
 This isn't a bug in the classification logic — `scanner.py` correctly labels "no response within timeout" as `filtered`, exactly as designed. It's the *test's* cross-platform assumption that doesn't hold: "an unused port always refuses instantly" is a Linux/macOS-specific guarantee, not a universal one. Confirmed consistent across repeated runs (not flaky), so this is a legitimate platform difference worth documenting rather than an intermittent test issue.
 
+**Resolution:** the shared `unused_port` fixture now skips on Windows with an explanatory reason, so the suite runs clean there (tests that depend on a refused connection are skipped, not failing) and still runs in full on Linux and macOS, which is what CI uses.
+
 ## 🧪 Testing
 
 ```bash
